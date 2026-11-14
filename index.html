@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111010"><title>BOOKMARK ARCHIVE</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+:root{--black:#111010;--pink:#f18bad;--pink2:#f7a2bd;--paper:#171515;--muted:#bd8798;--line:#54313d;--white:#f8e9ee}
+*{box-sizing:border-box}html{background:var(--black)}body{margin:0;background:var(--black);color:var(--white);font-family:'Noto Sans KR',sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");mix-blend-mode:screen}
+button,input,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:1180px;margin:auto;padding:28px 28px 70px;position:relative}
+header{border-bottom:1px solid var(--pink);padding-bottom:17px;margin-bottom:25px;display:flex;align-items:flex-end;justify-content:space-between;gap:15px}
+.brand small,.micro{font:11px 'DM Mono',monospace;color:var(--pink);letter-spacing:1px}
+.brand h1{font:clamp(46px,9vw,104px)/.82 'Archivo Black',sans-serif;letter-spacing:-5px;color:var(--pink);margin:10px 0 0;text-transform:uppercase;text-shadow:2px 2px 0 #6d3548}
+.brand h1 span{display:block}
+.header-actions{display:flex;gap:7px;flex-wrap:wrap}
+.btn{background:transparent;color:var(--pink);border:1px solid var(--pink);padding:10px 13px;font-size:12px;font-weight:700;letter-spacing:.2px}
+.btn:hover,.btn.primary{background:var(--pink);color:var(--black)}
+.btn.primary{font-weight:900}
+.layout{display:block}.main{min-height:600px}
+.topline{display:flex;justify-content:space-between;align-items:flex-end;gap:15px;margin-bottom:20px}
+.kicker{font:11px 'DM Mono',monospace;color:var(--pink);letter-spacing:1.5px}
+h2{font:clamp(30px,5vw,54px)/.95 'Archivo Black',sans-serif;color:var(--pink);margin:7px 0 0;letter-spacing:-1.8px;text-transform:uppercase}
+.desc{font-size:12px;color:#c49aa7;margin-top:9px}
+.searchbar{display:flex;align-items:center;gap:8px;border:1px solid var(--line);padding:0 12px;max-width:310px;width:100%;background:#1b1719}
+.searchbar span{color:var(--pink);font-size:20px}.searchbar input{background:transparent;border:0;outline:0;color:var(--white);padding:12px 0;width:100%;font-size:12px}
+.stats{display:flex;gap:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:22px;font:10px 'DM Mono',monospace;color:#d2a5b2;letter-spacing:.7px}
+.stats b{color:var(--pink);font-size:15px;margin-right:5px}
+.folder-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.folder-card{position:relative;text-align:left;min-height:170px;padding:17px;background:#191516;border:1px solid #744253;color:var(--pink);overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.folder-card:after{content:"✳";position:absolute;right:-12px;bottom:-39px;font-size:145px;line-height:1;color:#38212a;transform:rotate(-12deg)}
+.folder-card:hover{background:var(--pink);color:var(--black);transform:translateY(-2px)}
+.folder-card:hover:after{color:#e27d9f}
+.folder-card .folder-num{font:11px 'DM Mono',monospace;position:relative;z-index:1}
+.folder-card .folder-name{font:clamp(22px,3vw,32px)/.98 'Archivo Black',sans-serif;text-transform:uppercase;overflow-wrap:anywhere;position:relative;z-index:1;max-width:85%}
+.folder-card .folder-count{font:10px 'DM Mono',monospace;position:relative;z-index:1}
+.folder-card.add{border-style:dashed;align-items:center;justify-content:center;gap:10px;font:16px 'Archivo Black',sans-serif;background:transparent}
+.folder-card.add:after{display:none}
+.backrow{display:flex;align-items:center;gap:12px;margin-bottom:17px}
+.back{background:none;border:0;color:var(--pink);font:11px 'DM Mono',monospace;padding:0}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 16px}
+.toolbar .micro{color:#d5a5b3}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.post{background:#191516;border:1px solid #593341;padding:15px;min-width:0;position:relative}
+.post:before{content:"";position:absolute;left:0;top:0;width:4px;height:100%;background:var(--pink)}
+.post-top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:11px;padding-left:5px}
+.author{font:10px 'DM Mono',monospace;color:#d99bad;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.post-actions{display:flex;gap:3px}.iconbtn{background:transparent;color:var(--pink);border:1px solid transparent;padding:3px 7px;font-size:15px}.iconbtn:hover{border-color:var(--pink)}
+.post-text{font-size:13px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;min-height:22px;padding-left:5px;color:#f4e5ea}
+.post-url{display:inline-block;margin:10px 0 0 5px;font:10px 'DM Mono',monospace;color:var(--pink2);overflow-wrap:anywhere;text-decoration:none}
+.post-meta{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;margin-top:13px;padding:10px 0 0 5px;border-top:1px solid #432832}
+.chips{display:flex;gap:5px;flex-wrap:wrap}.chip{font:9px 'DM Mono',monospace;padding:4px 6px;border:1px solid #744253;color:var(--pink)}
+.date{font:9px 'DM Mono',monospace;color:#a77c89;white-space:nowrap}
+.empty{padding:55px 15px;text-align:center;color:#c49aa7;font-size:12px;line-height:1.8;border:1px dashed #744253}
+.empty strong{display:block;color:var(--pink);font:24px 'Archivo Black',sans-serif;margin-bottom:8px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:18px;z-index:20}
+.overlay.show{display:flex}.modal{width:min(560px,100%);max-height:90vh;overflow:auto;background:#171415;border:1px solid var(--pink);padding:22px;box-shadow:9px 9px 0 #542b3a}
+.modal h3{font:26px 'Archivo Black',sans-serif;color:var(--pink);margin:0 0 17px;text-transform:uppercase}
+.formrow{margin:13px 0}.formrow label{display:block;font:10px 'DM Mono',monospace;color:var(--pink);margin-bottom:7px;text-transform:uppercase;letter-spacing:.6px}
+.field,textarea{width:100%;border:1px solid #744253;background:#100e0f;color:var(--white);padding:11px;font-size:12px;outline-color:var(--pink)}
+textarea{min-height:100px;resize:vertical;line-height:1.6}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:19px}
+.checks{display:flex;flex-wrap:wrap;gap:7px}.check{border:1px solid #744253;color:#f4c5d3;padding:7px 10px;font-size:11px}.check input{accent-color:var(--pink);margin:0 5px 0 0}
+.note{background:#24191e;border-left:3px solid var(--pink);padding:10px;color:#d0a4b1;font-size:10px;line-height:1.7;margin:12px 0}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--pink);color:var(--black);padding:11px 16px;font-size:11px;font-weight:700;opacity:0;pointer-events:none;transition:.2s;z-index:30}.toast.show{opacity:1}
+@media(max-width:700px){.app{padding:18px 14px 50px}header{align-items:flex-start;flex-direction:column}.brand h1{letter-spacing:-2.5px}.header-actions{width:100%}.header-actions .btn{flex:1}.topline{align-items:flex-start;flex-direction:column}.searchbar{max-width:none}.folder-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.folder-card{min-height:140px;padding:13px}.cards{grid-template-columns:1fr}.stats{gap:12px;flex-wrap:wrap}}
+
+/* Minimal typography-led black + light pink revision */
+body:before{display:none}
+:root{--black:#101010;--pink:#f3a0bb;--pink2:#f7b5ca;--paper:#151515;--muted:#c18c9d;--line:#49303a;--white:#f7eaf0}
+body{background:#101010;color:var(--white)}
+.app{max-width:1080px;padding:30px 30px 64px}
+header{align-items:flex-end;border-bottom:1px solid #68404e;padding-bottom:16px;margin-bottom:30px}
+.brand small,.micro,.kicker{font-family:'DM Mono',monospace;letter-spacing:1.1px;color:var(--pink)}
+.brand h1{font-family:'Archivo Black',sans-serif;font-size:clamp(42px,7vw,78px);line-height:.9;letter-spacing:-3.5px;margin:12px 0 0;color:var(--pink);text-shadow:none}
+.brand h1 span{display:inline}
+.brand h1 span+span:before{content:" ";white-space:pre}
+.btn{border:1px solid #805363;color:var(--pink);background:transparent;padding:9px 12px;font-size:11px;letter-spacing:.5px}
+.btn:hover,.btn.primary{background:var(--pink);border-color:var(--pink);color:#101010}
+.topline{margin-bottom:18px}
+h2{font-family:'Archivo Black',sans-serif;font-size:clamp(27px,4vw,42px);letter-spacing:-1px;color:var(--pink);text-shadow:none}
+.desc{color:#c9a4b0;font-size:12px}
+.searchbar{background:#151515;border:1px solid #49303a}
+.searchbar input{color:var(--white)}
+.stats{border-color:#49303a;color:#c9a4b0;padding:10px 0;margin-bottom:20px}
+.stats b{color:var(--pink)}
+.folder-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.folder-card{min-height:130px;padding:15px;background:#151515;border:1px solid #5a3945;color:var(--pink);transition:background .15s,border-color .15s}
+.folder-card:after{display:none}
+.folder-card:hover{background:#f3a0bb;color:#101010;border-color:#f3a0bb;transform:none}
+.folder-card:hover .folder-num,.folder-card:hover .folder-count{color:#302027}
+.folder-card .folder-num,.folder-card .folder-count{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.5px}
+.folder-card .folder-name{font-family:'Archivo Black',sans-serif;font-size:clamp(19px,2.4vw,27px);letter-spacing:-.7px;line-height:1.05;max-width:100%}
+.folder-card.add{background:transparent;border:1px dashed #805363;color:#f3a0bb;font:12px 'DM Mono',monospace;letter-spacing:1px}
+.folder-card.add:hover{background:#f3a0bb;color:#101010}
+.post{background:#151515;border:1px solid #49303a;padding:15px}
+.post:before{display:none}
+.post-top{padding-left:0}
+.author{color:#d89bad}
+.post-text{padding-left:0;color:#f4e8ed}
+.post-url{margin-left:0;color:#f3a0bb}
+.post-meta{padding-left:0;border-color:#49303a}
+.chip{border:1px solid #68404e;background:transparent;color:#f3a0bb}
+.date{color:#b18b98}
+.iconbtn{color:#f3a0bb}
+.empty{border-color:#68404e;color:#c9a4b0}
+.empty strong{font-family:'Archivo Black',sans-serif;color:#f3a0bb}
+.modal{background:#151515;border:1px solid #f3a0bb;box-shadow:0 12px 40px #0009}
+.modal h3{font-family:'Archivo Black',sans-serif;color:#f3a0bb}
+.field,textarea{background:#101010;border-color:#68404e;color:#f7eaf0}
+.formrow label{color:#f3a0bb}
+.check{border-color:#68404e;color:#f2c4d2}
+.note{background:#21181c;border-left-color:#f3a0bb;color:#d5aeb9}
+.toast{background:#f3a0bb;color:#101010}
+@media(max-width:700px){
+ .app{padding:20px 15px 48px}
+ .brand h1{font-size:clamp(37px,11vw,60px);letter-spacing:-2px}
+ .folder-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .folder-card{min-height:118px;padding:12px}
+ .folder-card .folder-name{font-size:20px}
+}
+
+</style></head>
+<body><div class="app">
+<header><div class="brand"><small>HAND-MADE / PERSONAL COLLECTION · VOL. 01</small><h1><span>BOOKMARK</span><span>ARCHIVE</span></h1></div>
+<div class="header-actions"><button class="btn" id="importBtn">IMPORT</button><button class="btn" id="exportBtn">BACKUP</button><button class="btn primary" id="addBtn">＋ SAVE POST</button></div></header>
+<div class="layout"><section class="main">
+<div class="topline"><div><div class="kicker" id="kicker">YOUR PRIVATE COLLECTION / 001</div><h2 id="viewTitle">YOUR FOLDERS</h2><div class="desc" id="viewDesc">폴더를 선택해 저장한 게시물을 확인하세요.</div></div><div class="searchbar"><span>⌕</span><input id="search" placeholder="SEARCH POSTS / TAGS / AUTHORS"></div></div>
+<div class="stats" id="stats"></div><div id="folderGrid" class="folder-grid"></div><div id="postView" hidden><div class="backrow"><button class="back" id="backBtn">← ALL FOLDERS</button><span class="micro" id="folderLabel"></span></div><div class="toolbar"><span class="micro" id="postCount"></span></div><div class="cards" id="cards"></div></div>
+</section></div></div>
+<div class="overlay" id="modalOverlay"><div class="modal" id="modal"></div></div><div class="toast" id="toast"></div>
+<script>
+const KEY='bookmarkArchive_v1';
+let data=loadData(),current='home',editing=null;
+function loadData(){try{let d=JSON.parse(localStorage.getItem(KEY));if(d&&Array.isArray(d.posts)&&Array.isArray(d.folders))return d}catch(e){}return{folders:[{id:'inbox',name:'미분류',icon:'▣'},{id:'fav',name:'즐겨찾기',icon:'★'}],posts:[]}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function uid(){return'id'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2100)}
+function folderName(id){return data.folders.find(f=>f.id===id)?.name||'삭제된 폴더'}
+function countFolder(id){return data.posts.filter(p=>id==='inbox'?!p.folders?.length:id==='fav'?p.favorite:(p.folders||[]).includes(id)).length}
+function render(){
+ const home=current==='home',folder=data.folders.find(f=>f.id===current);
+ document.getElementById('folderGrid').hidden=!home;document.getElementById('postView').hidden=home;
+ document.getElementById('viewTitle').textContent=home?'YOUR FOLDERS':(folder?folder.name.toUpperCase():'YOUR FOLDERS');
+ document.getElementById('viewDesc').textContent=home?'폴더를 선택해 저장한 게시물을 확인하세요.':'이 폴더에 저장한 게시물';
+ document.getElementById('kicker').textContent=home?'YOUR PRIVATE COLLECTION / 001':'COLLECTION / '+String(data.folders.findIndex(f=>f.id===current)+1).padStart(3,'0');
+ document.getElementById('stats').innerHTML=`<span><b>${data.posts.length}</b> POSTS SAVED</span><span><b>${data.folders.length-2}</b> CUSTOM FOLDERS</span><span><b>${data.posts.filter(p=>!p.folders?.length).length}</b> UNSORTED</span>`;
+ let q=document.getElementById('search').value.toLowerCase().trim();
+ if(home){
+  let fs=[{id:'inbox',name:'미분류',icon:'▣'}, {id:'fav',name:'즐겨찾기',icon:'★'},...data.folders.filter(f=>!['inbox','fav'].includes(f.id))];
+  let filtered=fs.filter(f=>!q||f.name.toLowerCase().includes(q)||data.posts.some(p=>(p.folders||[]).includes(f.id)&&[p.text,p.author,p.url,...(p.tags||[])].join(' ').toLowerCase().includes(q)));
+  document.getElementById('folderGrid').innerHTML=filtered.map((f,i)=>`<button class="folder-card" data-open="${esc(f.id)}"><span class="folder-num">FOLDER / ${String(i+1).padStart(2,'0')}</span><span class="folder-name">${esc(f.name)}</span><span class="folder-count">${countFolder(f.id)} POSTS　↗</span></button>`).join('')+`<button class="folder-card add" id="newFolderCard"><span style="font-size:38px">＋</span><span>NEW FOLDER</span></button>`;
+  document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{current=b.dataset.open;render()});
+  document.getElementById('newFolderCard').onclick=newFolder;
+ }else{
+  let posts=data.posts.filter(p=>(current==='inbox'?!p.folders?.length:current==='fav'?p.favorite:(p.folders||[]).includes(current))&&(!q||[p.text,p.author,p.url,...(p.tags||[])].join(' ').toLowerCase().includes(q)));
+  posts.sort((a,b)=>b.created-a.created);document.getElementById('folderLabel').textContent='FOLDER / '+folderName(current).toUpperCase();document.getElementById('postCount').textContent=posts.length+' POSTS / MOST RECENT FIRST';
+  let cards=document.getElementById('cards');
+  cards.innerHTML=posts.length?posts.map(p=>`<article class="post"><div class="post-top"><div class="author">${esc(p.author||'AUTHOR UNKNOWN')} ${p.favorite?'· ★':''}</div><div class="post-actions"><button class="iconbtn" data-edit="${p.id}" title="수정">✎</button><button class="iconbtn" data-fav="${p.id}" title="즐겨찾기">${p.favorite?'★':'☆'}</button><button class="iconbtn" data-del="${p.id}" title="삭제">×</button></div></div><div class="post-text">${esc(p.text||'게시물 내용이 입력되지 않았습니다.')}</div>${p.url?`<a class="post-url" href="${esc(p.url)}" target="_blank" rel="noopener">OPEN ORIGINAL POST ↗</a>`:''}<div class="post-meta"><div class="chips">${(p.folders||[]).map(id=>`<span class="chip">${esc(folderName(id))}</span>`).join('')}${(p.tags||[]).map(t=>`<span class="chip">#${esc(t)}</span>`).join('')}</div><span class="date">${new Date(p.created).toLocaleDateString('ko-KR')}</span></div></article>`).join(''):'<div class="empty" style="grid-column:1/-1"><strong>NO POSTS YET</strong>이 폴더에는 아직 저장된 게시물이 없습니다.</div>';
+  cards.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>openPost(b.dataset.edit));cards.querySelectorAll('[data-fav]').forEach(b=>b.onclick=()=>{let p=data.posts.find(x=>x.id===b.dataset.fav);p.favorite=!p.favorite;persist()});cards.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('이 게시물을 삭제할까요?')){data.posts=data.posts.filter(x=>x.id!==b.dataset.del);persist();toast('게시물을 삭제했습니다.')}});
+ }
+}
+function showModal(s){document.getElementById('modal').innerHTML=s;document.getElementById('modalOverlay').classList.add('show')}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('show')}
+document.getElementById('modalOverlay').onclick=e=>{if(e.target.id==='modalOverlay')closeModal()};
+function openPost(id=null,preset={}){let p=id?data.posts.find(x=>x.id===id):{text:preset.text||'',url:preset.url||'',author:preset.author||'',folders:[],tags:[]};
+ let opts=data.folders.filter(f=>!['inbox','fav'].includes(f.id)).map(f=>`<label class="check"><input type="checkbox" name="folders" value="${esc(f.id)}" ${(p.folders||[]).includes(f.id)?'checked':''}>${esc(f.name)}</label>`).join('');
+ showModal(`<h3>${id?'EDIT POST':'SAVE POST'}</h3><div class="formrow"><label>Post URL</label><input class="field" id="pUrl" placeholder="https://x.com/..." value="${esc(p.url||'')}"></div><div class="formrow"><label>Post text / note</label><textarea id="pText" placeholder="게시물 내용이나 메모를 입력하세요.">${esc(p.text||'')}</textarea></div><div class="formrow"><label>Author</label><input class="field" id="pAuthor" placeholder="@username" value="${esc(p.author||'')}"></div><div class="formrow"><label>Folders / multiple select</label><div class="checks">${opts||'<span class="micro">폴더를 먼저 만들어 주세요.</span>'}</div></div><div class="formrow"><label>Tags / comma separated</label><input class="field" id="pTags" placeholder="영화, 레퍼런스, 나중에 보기" value="${esc((p.tags||[]).join(', '))}"></div><div class="note">링크만 저장해도 됩니다. 사진·영상 미리보기는 X의 외부 임베드 정책 및 로그인 상태에 따라 표시되지 않을 수 있습니다.</div><div class="modal-actions"><button class="btn" id="cancelPost">CANCEL</button><button class="btn primary" id="savePost">SAVE</button></div>`);
+ document.getElementById('cancelPost').onclick=closeModal;document.getElementById('savePost').onclick=()=>{let url=document.getElementById('pUrl').value.trim(),text=document.getElementById('pText').value.trim(),author=document.getElementById('pAuthor').value.trim(),folders=[...document.querySelectorAll('input[name="folders"]:checked')].map(x=>x.value),tags=document.getElementById('pTags').value.split(',').map(x=>x.trim().replace(/^#/,'')).filter(Boolean);if(!url&&!text)return toast('링크나 내용을 입력해 주세요.');if(id)Object.assign(p,{url,text,author,folders,tags});else data.posts.push({id:uid(),url,text,author,folders,tags,created:Date.now(),favorite:false});closeModal();persist();toast('저장했습니다.')};
+}
+function newFolder(){showModal(`<h3>NEW FOLDER</h3><div class="formrow"><label>Folder name</label><input class="field" id="folderName" placeholder="예: MUSIC / FILM / IDEAS"></div><div class="modal-actions"><button class="btn" id="cancelFolder">CANCEL</button><button class="btn primary" id="saveFolder">CREATE</button></div>`);document.getElementById('cancelFolder').onclick=closeModal;document.getElementById('saveFolder').onclick=()=>{let name=document.getElementById('folderName').value.trim();if(!name)return toast('폴더 이름을 입력해 주세요.');if(data.folders.some(f=>f.name===name))return toast('같은 이름의 폴더가 있습니다.');data.folders.push({id:uid(),name,icon:'▰'});closeModal();persist();toast('폴더를 만들었습니다.')} }
+function exportData(){let blob=new Blob([JSON.stringify({format:'Bookmark Archive',version:1,exportedAt:new Date().toISOString(),...data},null,2)],{type:'application/json'});download(blob,'bookmark-archive-backup-'+new Date().toISOString().slice(0,10)+'.json');toast('백업 파일을 만들었습니다.')}
+function download(blob,name){let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
+function importFile(file){let r=new FileReader();r.onload=()=>{try{let raw=r.result,parsed;if(file.name.toLowerCase().endsWith('.json')){parsed=JSON.parse(raw);let ps=Array.isArray(parsed)?parsed:parsed.posts;if(!Array.isArray(ps))throw 0;data.posts.push(...ps.map(p=>({id:uid(),url:p.url||p.tweet_url||p.permalink||'',text:p.text||p.full_text||p.content||'',author:p.author||p.username||p.screen_name||'',folders:[],tags:[],created:Date.now(),favorite:false})).filter(p=>p.url||p.text))}else{data.posts.push(...raw.split(/\r?\n/).map(x=>x.trim()).filter(x=>/^https?:\/\//i.test(x)).map(url=>({id:uid(),url,text:'',author:'',folders:[],tags:[],created:Date.now(),favorite:false})))}persist();toast('가져오기를 완료했습니다.')}catch(e){alert('파일 형식을 읽지 못했습니다. JSON, TXT 또는 CSV를 확인해 주세요.')}};r.readAsText(file)}
+document.getElementById('addBtn').onclick=()=>openPost();document.getElementById('exportBtn').onclick=exportData;document.getElementById('backBtn').onclick=()=>{current='home';render()};document.getElementById('search').oninput=render;
+document.getElementById('importBtn').onclick=()=>{showModal(`<h3>IMPORT BOOKMARKS</h3><div class="note">JSON 게시물 목록 또는 링크가 한 줄씩 적힌 TXT/CSV 파일을 가져올 수 있습니다.</div><div class="formrow"><label>Select file</label><input type="file" id="importFile" class="field" accept=".json,.txt,.csv"></div><div class="modal-actions"><button class="btn" id="cancelImport">CANCEL</button><button class="btn primary" id="doImport">IMPORT</button></div>`);document.getElementById('cancelImport').onclick=closeModal;document.getElementById('doImport').onclick=()=>{let f=document.getElementById('importFile').files[0];if(!f)return toast('파일을 선택해 주세요.');closeModal();importFile(f)}};
+function handleIncoming(){let p=new URLSearchParams(location.search);if(p.has('share')){let url=p.get('url')||'',text=p.get('text')||p.get('title')||'';if(url||text){current='home';openPost(null,{url,text});history.replaceState({},'',location.pathname)}}}
+render();handleIncoming();
+</script></body></html>
